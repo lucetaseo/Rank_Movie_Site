@@ -6,7 +6,7 @@
     <title>댓글 기능</title>
 </head>
 <body>
-    <h1>리뷰</h1>
+    <h1>댓글</h1>
 
     <div id="commentContainer">
     </div>
@@ -23,7 +23,7 @@
             var name = document.getElementById('name').value;
             var password = document.getElementById('password').value;
             var review = document.getElementById('review').value;
-
+            // 저장할때 set 아이템 고유값 설정()
 
             var today = new Date();
             var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -33,7 +33,7 @@
             var newComment = document.createElement('div');
             newComment.innerHTML = '<strong>' + name + '</strong> - ' + review;
 
-
+            // 댓글을 로컬 스토리지에 저장
             var comments = JSON.parse(localStorage.getItem('comments')) || [];
             comments.push({ name: name, password: password, review: review, dateTime: dateTime });
             localStorage.setItem('comments', JSON.stringify(comments));
@@ -69,6 +69,7 @@
             addComment(); 
         });
 
+        // 페이지가 로드될 때 저장된 댓글을 불러와서 출력
         window.onload = function() {
             var comments = JSON.parse(localStorage.getItem('comments')) || [];
             var commentContainer = document.getElementById('commentContainer');
@@ -95,5 +96,5 @@
             });
         };
     </script>
-</body> 
+</body>
 </html>
