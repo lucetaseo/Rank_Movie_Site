@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>댓글 기능</title>
+</head>
+<body>
+    <h1>리뷰</h1>
+
+    <div id="commentContainer">
+    </div>
+
+    <form id="commentForm">
+        <input type="text" id="name" placeholder="이름">
+        <input type="password" id="password" placeholder="비밀번호">
+        <textarea id="review" placeholder="리뷰를 작성해주세요"></textarea>
+        <button type="submit">리뷰 작성</button>
+    </form>
+
+    <script>
+        function addComment() {
+            var name = document.getElementById('name').value;
+            var password = document.getElementById('password').value;
+            var review = document.getElementById('review').value;
+
+
+            var today = new Date();
+            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            var dateTime = date+' '+time;
+
+            var newComment = document.createElement('div');
+            newComment.innerHTML = '<strong>' + name + '</strong> - ' + review;
+
+
+            var comments = JSON.parse(localStorage.getItem('comments')) || [];
+            comments.push({ name: name, password: password, review: review, dateTime: dateTime });
+            localStorage.setItem('comments', JSON.stringify(comments));
+
+            var deleteButton = document.createElement('button');
+            deleteButton.textContent = '삭제';
+            deleteButton.addEventListener('click', function() {
+                var inputPassword = prompt('비밀번호를 입력하세요:');
+                if (inputPassword === password) {
+                    newComment.remove(); 
+
+                    var index = comments.findIndex(function(item) {
+                        return item.review === review && item.dateTime === dateTime;
+                    });
+                    comments.splice(index, 1);
+                    localStorage.setItem('comments', JSON.stringify(comments));
+                } else {
+                    alert('비밀번호가 일치하지 않습니다.');
+                }
+            });
+            newComment.appendChild(deleteButton);
+
+            var commentContainer = document.getElementById('commentContainer');
+            commentContainer.appendChild(newComment);
+
+            document.getElementById('name').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('review').value = '';
+        }
+
+       document.getElementById('commentForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            addComment(); 
+        });
+
+        window.onload = function() {
+            var comments = JSON.parse(localStorage.getItem('comments')) || [];
+            var commentContainer = document.getElementById('commentContainer');
+            comments.forEach(function(item) {
+                var newComment = document.createElement('div');
+                newComment.innerHTML = '<strong>' + item.name + '</strong> - ' + item.review;
+                var deleteButton = document.createElement('button');
+                deleteButton.textContent = '삭제';
+                deleteButton.addEventListener('click', function() {
+                    var inputPassword = prompt('비밀번호를 입력하세요:');
+                    if (inputPassword === item.password) {
+                        newComment.remove(); 
+                        var index = comments.findIndex(function(comment) {
+                            return comment.review === item.review && comment.dateTime === item.dateTime;
+                        });
+                        comments.splice(index, 1);
+                        localStorage.setItem('comments', JSON.stringify(comments));
+                    } else {
+                        alert('비밀번호가 일치하지 않습니다.');
+                    }
+                });
+                newComment.appendChild(deleteButton);
+                commentContainer.appendChild(newComment);
+            });
+        };
+    </script>
+</body> 
+</html>
