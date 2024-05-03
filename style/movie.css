@@ -44,6 +44,29 @@
 
 }
 
+/* 영화 슬라이드 박스 (main) */
+.movie_slide {
+    width: auto;
+    height: auto;
+    padding: 10% 25% 10% 25%;
+    border-bottom: 1px solid white;
+    background-color: #f0e6f0;
+}
+
+.slide {
+    border: 10px solid white;
+    width: auto;
+    background-color: black;
+
+}
+
+.carousel-item > img {
+    height: 30vh;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+
 /* 카드 */
 
 .card {

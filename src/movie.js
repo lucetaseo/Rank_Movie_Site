@@ -6,14 +6,14 @@ const options = {
     }
 };
 
-async function getdata() {
+export const getdata = async function () {
 
-    const response = await fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', options)
+    const response = await fetch('https://api.themoviedb.org/3/movie/top_rated?language=ko-KR&page=1', options)
     const data = await response.json()
-   
+
     const newmovieinfo = [];
 
-    for (item of data['results']) {
+    for (const item of data['results']) {
         const movieinfo = {};
         movieinfo['title'] = item['title'];
         movieinfo['overview'] = item['overview'];
@@ -23,11 +23,11 @@ async function getdata() {
 
         // console.log(movieinfo);
         newmovieinfo.push(movieinfo);
-        console.log(newmovieinfo);
+        //console.log(newmovieinfo);
     }
     return newmovieinfo;
 }
-getdata();
+// getdata();
 
 //카드 만들기
 function makeCard(item) {
@@ -47,7 +47,7 @@ function makeCard(item) {
 }
 
 
-async function print() {
+export const print = async function () {
     const data = await getdata();
     let count = 0;
     data.forEach(function (item) {
@@ -56,7 +56,7 @@ async function print() {
     });
 
 }
-print();
+// print();
 
 
 
