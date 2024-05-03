@@ -3,60 +3,89 @@ import { getdata } from "./movie.js"
 const $carouselIndicator = document.querySelector(".carousel-indicators");
 const $carouselItem = document.querySelector(".carousel-inner");
 
-// data에서 상위 5개만큼 슬라이드에 추가
+// TMDB API MOVEIS-Images 데이터 가져오기
+const options = {
+    method: 'GET',
+    headers: {
+        accept: 'application/json',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3N2M5NTE5NGJmNmQxNTRjMTAyODEyZWFkNmZmZGIzMyIsInN1YiI6IjY2MmVkZWI3ZTMzZjgzMDEyODIxYjY3YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._pBtT4wAn0hnLFf8LKD2dPzrGwfE-364B4Pw2ow_siY'
+    }
+};
+
+const getImgdata = async function () {
+    let imgdata = [];
+    const totaldata = await getdata();
+
+    return await Promise.all(totaldata.map(item => matchImageById(item.movie_id)))
+        .then(data => {
+            imgdata = data;
+    
+            return [totaldata,imgdata];
+        })
+        .catch(error => {
+            // 오류 처리
+            console.error("데이터를 가져오는 중 오류가 발생했습니다.", error);
+        });
+}
+
+const matchImageById = async function (id) {
+    const response = await fetch('https://api.themoviedb.org/3/movie/' + id + '/images', options);
+    const data = await response.json();
+
+    return data.backdrops[0].file_path;
+}
+
+// data에서 상위 10개만큼 슬라이드에 추가
 export const makeMovieSlide = async function () {
-    const data = await getdata();
-    const NUM_OF_SLIDE = 5;
+    const data = await getImgdata();
+    const moviedata = data[0];
+    const imgdata = data[1];
+    const NUM_OF_SLIDE = 10;
 
     for (let i = 0; i < NUM_OF_SLIDE; i++) {
-        addMovieSilde("https://image.tmdb.org/t/p/w500" + data[i].poster_path, i);
+        addMovieSilde(moviedata[i],imgdata[i], i);
     }
 }
 
 // 슬라이드에 항목 추가
-const addMovieSilde = (poster_path, index) => {
+const addMovieSilde = (moviedata, imgdata, index) => {
     let carouselIndicator;
     let carouselItem;
 
     if (index === 0) {
-        // 이미 active인 0번 슬라이드가 있을 경우 active속성 제거를 위한 기능 필요
         carouselIndicator = `<button type="button" data-bs-target="#carouselExampleIndicators" 
                                 data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1">
                             </button>`
         carouselItem = `<div class="carousel-item active">
-                            <img src="${poster_path}" id="img_${index}"
+                            <img src="https://image.tmdb.org/t/p/w500${imgdata}" id="img_slide_${moviedata.movie_id}"
                                 class="d-block w-100" alt="movie poster 0">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>${moviedata.title}</h5>
+                                <p>${moviedata.overview}</p>
+                            </div>
                         </div>`;
     } else {
         carouselIndicator = `<button type="button" data-bs-target="#carouselExampleIndicators" 
                                 data-bs-slide-to="${index}" aria-label="Slide ${index + 1}">
                             </button>`
         carouselItem = `<div class="carousel-item">
-                            <img src="${poster_path}" id="img_${index}"
+                            <img src="https://image.tmdb.org/t/p/w500${imgdata}" id="img_slide_${moviedata.movie_id}"
                                 class="d-block w-100" alt="movie poster ${index}">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>${moviedata.title}</h5>
+                                <p>${moviedata.overview}</p>
+                            </div>
                         </div>`
     }
     $carouselIndicator.insertAdjacentHTML('beforeend', carouselIndicator);
     $carouselItem.insertAdjacentHTML('beforeend', carouselItem);
-    addMovieSildeClickEvent(index);
+    addMovieSildeClickEvent(moviedata.movie_id);
 }
 
 // click 이벤트 생성
-const addMovieSildeClickEvent = (index) => {
-    // 캐러셀의 슬라이드 트렌지션이 완료했을 때 발생
-    document.querySelector(".carousel").addEventListener('slide.bs.carouse1',(event) => {
-        console.log(event.from);
-        document.getElementById(`img_${index}`).addEventListener("click",() => {
-            // 클릭 시 나오는 함수 작성
-            alert('클릭');
-        })
-        alert('클릭2');
-    }) 
-
-    // document.getElementById(`img_${index}`).addEventListener("click", () => {
-    //     // 클릭 시 나오는 함수 작성
-    //     alert('클릭');
-    // })
-
-    //console.log(document.getElementById(`img_${index}`));
+const addMovieSildeClickEvent = (id) => {
+    document.getElementById(`img_slide_${id}`).addEventListener("click", () => {
+        // 클릭 시 나오는 함수 작성
+        alert('movie_id: ' + id);
+    })
 }
