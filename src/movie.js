@@ -75,7 +75,6 @@ export async function print() {
     });
 
 }
-print();
 
 // 조민수 끝나는포인트
 
