@@ -107,6 +107,7 @@ export const makeGenreForm = (movieDataList) => {
     genre.forEach(item => {
         genreTmp += `<li><a id="genre_${item.id}" class="dropdown-item">${item.name}</a></li>`
     });
+    document.querySelector("#dropdown_box").innerHTML = ' ';
     document.querySelector("#dropdown_box").insertAdjacentHTML('beforeend', genreTmp);
 
     genre.forEach(item => {
