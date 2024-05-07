@@ -19,7 +19,7 @@ async function getdata() {
 
     const newmovieinfo = [];
 
-    for (let item of data.result) {
+    for (let item of data.results) {
         const movieinfo = {};
         movieinfo['title'] = item['title'];
         movieinfo['overview'] = item['overview'];
