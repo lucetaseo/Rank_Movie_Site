@@ -78,3 +78,34 @@ export async function print() {
 print();
 
 // 조민수 끝나는포인트
+
+// 이동효 시작 부분
+
+function executeSearch() {
+    const searchText = document.getElementById("searchInput").value.toLowerCase();
+    const cards = document.querySelectorAll(".card");
+
+    cards.forEach(function (card) {
+        const title = card.querySelector(".card-title").textContent.toLowerCase();
+        if (title.includes(searchText)) {
+            card.style.display = "block";
+        } else {
+            card.style.display = "none";
+        }
+    });
+}
+
+document.getElementById("searchbtn").addEventListener("click", function (event) {
+    event.preventDefault();
+    executeSearch();
+});
+
+document.getElementById("searchInput").addEventListener("keypress", function (event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        executeSearch();
+    }
+});
+
+//이동효 종료 부분
+
