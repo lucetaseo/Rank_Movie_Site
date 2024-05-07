@@ -1,10 +1,10 @@
-import {getdata, print} from "./movie.js";
-import {makeMovieSlide} from "./movie_slide.js";
+import { getdata, print } from './movie.js';
+import { makeMovieSlide } from './movie_slide.js';
 
 // 슬라이드
-async function test(){
-    await makeMovieSlide();
-};
+async function test() {
+  await makeMovieSlide();
+}
 test();
 
 // 카드
