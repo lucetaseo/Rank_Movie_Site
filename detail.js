@@ -35,8 +35,9 @@ async function getdata() {
 //  영화 감독 출연진 정보에 대한 api가져오기
 async function getcredit(id) {
 
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/credits?language=es_US`, options)
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/credits?language=ko-KR`, options)
     const data = await response.json()
+    console.log(data);
     
     const newmoviecredit = [];
     newmoviecredit.push(data.cast)
@@ -48,7 +49,7 @@ async function getcredit(id) {
 //  영화트레일러 api
 async function getvideo(id) {
    
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`, options)
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?language=ko-KR`, options)
     const data = await response.json()
     let newvideo;
     newvideo = data.results
@@ -60,7 +61,7 @@ async function getvideo(id) {
 // 영화디테일 api
 async function getdetail(id) {
    
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${id}?language=en-US`, options)
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${id}?language=ko-KR`, options)
     const data = await response.json()
     let newdetail;
     newdetail = data
