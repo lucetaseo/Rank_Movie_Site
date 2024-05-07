@@ -67,7 +67,6 @@ const addMovieSilde = (moviedata, imgdata, index) => {
                                 class="d-block w-100" alt="movie poster 0">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>${moviedata.title}</h5>
-                                <p>${moviedata.overview}</p>
                             </div>
                         </div>`;
   } else {
@@ -81,7 +80,6 @@ const addMovieSilde = (moviedata, imgdata, index) => {
                                 class="d-block w-100" alt="movie poster ${index}">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>${moviedata.title}</h5>
-                                <p>${moviedata.overview}</p>
                             </div>
                         </div>`;
   }

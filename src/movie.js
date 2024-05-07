@@ -58,27 +58,3 @@ export const print = async function () {
     count++;
   });
 };
-
-// // api 가져온것들
-// const options = {
-//     method: 'GET',
-//     headers: {
-//         accept: 'application/json',
-//         Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5OWIwNDE1OTlmNzBkMDkwYjVmYTg2NjJlOWNkYTVhZCIsInN1YiI6IjY2MmE0NzFmMWM2YWE3MDBiMjkyNzg3MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.P1vJ1UkEQN1GdOv7kd_C2XL1bxFKy16ySE3ZvkrXtxU'
-//     }
-// };
-
-// let moviedata = [];
-
-// fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', options)
-//     .then(response => response.json())
-//     .then((response) => {
-//         // moviedata = response;
-//         // console.log(moviedata);
-//         for (const prop of response['results']) {
-//             // console.log(prop["title"]);
-//             moviedata.push(prop["title"]);
-//         }
-//     })
-//     // .then(response => console.log(response["results"][0]["title"]))
-//     .catch(err => console.error(err));

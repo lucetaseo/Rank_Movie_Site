@@ -32,6 +32,8 @@
   background-size: cover;
 }
 
+/* update : 2024 - 05 - 07
+   작성자 : 윤동협         */
 /* 영화 슬라이드 박스 (main) */
 .movie_slide {
   width: auto;
@@ -58,13 +60,9 @@
 
 .carousel-caption {
   text-shadow: 0px 0px 10px black;
+  font-size: 2em;
 }
-.carousel-caption > p {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 20px;
-}
+/* ---------- 구분선 -------------- */
 
 /* 카드 */
 
