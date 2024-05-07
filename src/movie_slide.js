@@ -1,3 +1,6 @@
+// update : 2024 - 05 - 07
+// 작성자 : 윤동협
+
 import { getdata } from './movie.js';
 
 const $carouselIndicator = document.querySelector('.carousel-indicators');
@@ -18,12 +21,13 @@ const getImgdata = async function () {
   const totaldata = await getdata();
 
   return await Promise.all(
-    totaldata.map((item) => matchImageById(item.movie_id)),
+    totaldata.map(
+      async (item) =>
+        (item.slide_poster_path = await matchImageById(item.movie_id)),
+    ),
   )
     .then((data) => {
-      imgdata = data;
-
-      return [totaldata, imgdata];
+      return totaldata;
     })
     .catch((error) => {
       // 오류 처리
@@ -44,17 +48,15 @@ const matchImageById = async function (id) {
 // data에서 상위 10개만큼 슬라이드에 추가
 export const makeMovieSlide = async function () {
   const data = await getImgdata();
-  const moviedata = data[0];
-  const imgdata = data[1];
   const NUM_OF_SLIDE = 10;
 
   for (let i = 0; i < NUM_OF_SLIDE; i++) {
-    addMovieSilde(moviedata[i], imgdata[i], i);
+    addMovieSilde(data[i], i);
   }
 };
 
 // 슬라이드에 항목 추가
-const addMovieSilde = (moviedata, imgdata, index) => {
+const addMovieSilde = (data, index) => {
   let carouselIndicator;
   let carouselItem;
 
@@ -63,10 +65,10 @@ const addMovieSilde = (moviedata, imgdata, index) => {
                                 data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1">
                             </button>`;
     carouselItem = `<div class="carousel-item active">
-                            <img src="https://image.tmdb.org/t/p/w500${imgdata}" id="img_slide_${moviedata.movie_id}"
+                            <img src="https://image.tmdb.org/t/p/w500${data.slide_poster_path}" id="img_slide_${data.movie_id}"
                                 class="d-block w-100" alt="movie poster 0">
                             <div class="carousel-caption d-none d-md-block">
-                                <h5>${moviedata.title}</h5>
+                                <h5>${data.title}</h5>
                             </div>
                         </div>`;
   } else {
@@ -76,16 +78,16 @@ const addMovieSilde = (moviedata, imgdata, index) => {
     }">
                             </button>`;
     carouselItem = `<div class="carousel-item">
-                            <img src="https://image.tmdb.org/t/p/w500${imgdata}" id="img_slide_${moviedata.movie_id}"
+                            <img src="https://image.tmdb.org/t/p/w500${data.slide_poster_path}" id="img_slide_${data.movie_id}"
                                 class="d-block w-100" alt="movie poster ${index}">
                             <div class="carousel-caption d-none d-md-block">
-                                <h5>${moviedata.title}</h5>
+                                <h5>${data.title}</h5>
                             </div>
                         </div>`;
   }
   $carouselIndicator.insertAdjacentHTML('beforeend', carouselIndicator);
   $carouselItem.insertAdjacentHTML('beforeend', carouselItem);
-  addMovieSildeClickEvent(moviedata.movie_id);
+  addMovieSildeClickEvent(data.movie_id);
 };
 
 // click 이벤트 생성
