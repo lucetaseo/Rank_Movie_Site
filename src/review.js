@@ -52,7 +52,7 @@ document.getElementById('commentForm').addEventListener('submit', function (even
 });
 
 window.onload = function() {
-    var movieId = getMovieIdFromUrl(); 
+    var movieId = getMovieIdFromUrl(); // URL에서 영화 아이디 추출
     var comments = JSON.parse(localStorage.getItem('comments')) || [];
     var commentContainer = document.getElementById('commentContainer');
     comments.forEach(function(item) {
@@ -80,3 +80,8 @@ window.onload = function() {
         }
     });
 };
+
+function getMovieIdFromUrl() {
+    var urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('movieId');
+}
