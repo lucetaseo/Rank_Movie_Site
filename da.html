@@ -16,41 +16,82 @@
         <input type="password" id="password" placeholder="비밀번호">
         <textarea id="review" placeholder="리뷰를 작성해주세요"></textarea>
         <input type="hidden" id="movieId" value="영화 아이디를 여기에 입력하세요">
-        <button type="submit">리뷰 작성</button>
+        <button type="submit">댓글 작성</button>
     </form>
 
     <script>
+        // 댓글을 불러오는 함수
+        function loadComments() {
+            var movieId = getMovieIdFromUrl(); // URL에서 영화 아이디 추출
+            var commentsKey = 'comments_' + movieId;
+            var comments = JSON.parse(localStorage.getItem(commentsKey)) || [];
+            var commentContainer = document.getElementById('commentContainer');
+            commentContainer.innerHTML = ''; // 기존 댓글을 지우고 새로 불러옴
+            comments.forEach(function(item) {
+                if (item.movieId === movieId) { // 해당 영화의 댓글만 표시
+                    var newComment = document.createElement('div');
+                    newComment.id = item.id;
+                    newComment.innerHTML = '<strong>' + item.name + '</strong> - ' + item.review;
+                    var deleteButton = document.createElement('button');
+                    deleteButton.textContent = '삭제';
+                    deleteButton.addEventListener('click', function() {
+                        var inputPassword = prompt('비밀번호를 입력하세요:');
+                        if (inputPassword === item.password) {
+                            newComment.remove(); 
+                            var index = comments.findIndex(function(comment) {
+                                return comment.id === item.id;
+                            });
+                            comments.splice(index, 1);
+                            localStorage.setItem(commentsKey, JSON.stringify(comments));
+                        } else {
+                            alert('비밀번호가 일치하지 않습니다.');
+                        }
+                    });
+                    newComment.appendChild(deleteButton);
+                    commentContainer.appendChild(newComment);
+                }
+            });
+        }
+
+        // 페이지가 로드될 때 댓글을 불러옴
+        window.onload = loadComments;
+
+        // 댓글 작성 함수
         function addComment() {
             var name = document.getElementById('name').value;
             var password = document.getElementById('password').value;
             var review = document.getElementById('review').value;
-            // 저장할때 set 아이템 고유값 설정()
+            var movieId = document.getElementById('movieId').value;
 
+            // 현재 날짜 및 시간 가져오기
             var today = new Date();
-            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-            var dateTime = date+' '+time;
+            var dateTime = date + ' ' + time;
+
+            var commentId = generateUniqueId(); // 댓글 고유 아이디 생성
 
             var newComment = document.createElement('div');
             newComment.innerHTML = '<strong>' + name + '</strong> - ' + review;
 
             // 댓글을 로컬 스토리지에 저장
-            var comments = JSON.parse(localStorage.getItem('comments')) || [];
-            comments.push({ name: name, password: password, review: review, dateTime: dateTime });
-            localStorage.setItem('comments', JSON.stringify(comments));
+            var commentsKey = 'comments_' + movieId; // 각 페이지(영화)별로 다른 키 생성
+            var comments = JSON.parse(localStorage.getItem(commentsKey)) || [];
+            comments.push({ id: commentId, name: name, password: password, review: review, dateTime: dateTime, movieId: movieId });
+            localStorage.setItem(commentsKey, JSON.stringify(comments));
 
             var deleteButton = document.createElement('button');
             deleteButton.textContent = '삭제';
-            deleteButton.addEventListener('click', function() {
+            deleteButton.addEventListener('click', function () {
                 var inputPassword = prompt('비밀번호를 입력하세요:');
                 if (inputPassword === password) {
-                    newComment.remove(); 
+                    newComment.remove();
 
                     var index = comments.findIndex(function(item) {
-                        return item.review === review && item.dateTime === dateTime;
+                        return item.id === commentId;
                     });
                     comments.splice(index, 1);
-                    localStorage.setItem('comments', JSON.stringify(comments));
+                    localStorage.setItem(commentsKey, JSON.stringify(comments));
                 } else {
                     alert('비밀번호가 일치하지 않습니다.');
                 }
@@ -65,37 +106,24 @@
             document.getElementById('review').value = '';
         }
 
-       document.getElementById('commentForm').addEventListener('submit', function(event) {
-            event.preventDefault(); 
-            addComment(); 
+        // 댓글 작성 양식 제출 시 addComment 함수 호출
+        document.getElementById('commentForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            addComment();
+            // 댓글 작성 후 다시 댓글을 불러옴
+            loadComments();
         });
 
-        // 페이지가 로드될 때 저장된 댓글을 불러와서 출력
-        window.onload = function() {
-            var comments = JSON.parse(localStorage.getItem('comments')) || [];
-            var commentContainer = document.getElementById('commentContainer');
-            comments.forEach(function(item) {
-                var newComment = document.createElement('div');
-                newComment.innerHTML = '<strong>' + item.name + '</strong> - ' + item.review;
-                var deleteButton = document.createElement('button');
-                deleteButton.textContent = '삭제';
-                deleteButton.addEventListener('click', function() {
-                    var inputPassword = prompt('비밀번호를 입력하세요:');
-                    if (inputPassword === item.password) {
-                        newComment.remove(); 
-                        var index = comments.findIndex(function(comment) {
-                            return comment.review === item.review && comment.dateTime === item.dateTime;
-                        });
-                        comments.splice(index, 1);
-                        localStorage.setItem('comments', JSON.stringify(comments));
-                    } else {
-                        alert('비밀번호가 일치하지 않습니다.');
-                    }
-                });
-                newComment.appendChild(deleteButton);
-                commentContainer.appendChild(newComment);
-            });
-        };
+        // 댓글 고유 아이디 생성 함수
+        function generateUniqueId() {
+            return '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        // URL에서 영화 아이디 추출 함수
+        function getMovieIdFromUrl() {
+            var urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('movieId');
+        }
     </script>
 </body>
 </html>
