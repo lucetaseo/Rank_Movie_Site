@@ -4,29 +4,27 @@ import { makeGenreForm } from "./genre_data.js";
 // 조민수 시작포인트
 // TMDB 에서  영화 가져온것
 const options = {
-    method: 'GET',
+    method: "GET",
     headers: {
-        accept: 'application/json',
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5OWIwNDE1OTlmNzBkMDkwYjVmYTg2NjJlOWNkYTVhZCIsInN1YiI6IjY2MmE0NzFmMWM2YWE3MDBiMjkyNzg3MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.P1vJ1UkEQN1GdOv7kd_C2XL1bxFKy16ySE3ZvkrXtxU'
+        accept: "application/json",
+        Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5OWIwNDE1OTlmNzBkMDkwYjVmYTg2NjJlOWNkYTVhZCIsInN1YiI6IjY2MmE0NzFmMWM2YWE3MDBiMjkyNzg3MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.P1vJ1UkEQN1GdOv7kd_C2XL1bxFKy16ySE3ZvkrXtxU"
     }
 };
 
-
-export async function getdata() {
-
-    const response = await fetch('https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1', options)
-    const data = await response.json()
+async function getdata() {
+    const response = await fetch("https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1", options);
+    const data = await response.json();
 
     const newmovieinfo = [];
 
     for (let item of data.results) {
         const movieinfo = {};
-        movieinfo['title'] = item['title'];
-        movieinfo['overview'] = item['overview'];
-        movieinfo['poster_path'] = item['poster_path'];
-        movieinfo['vote_average'] = item['vote_average'];
-        movieinfo['movie_id'] = item['id'];
-
+        movieinfo["title"] = item["title"];
+        movieinfo["overview"] = item["overview"];
+        movieinfo["poster_path"] = item["poster_path"];
+        movieinfo["vote_average"] = item["vote_average"];
+        movieinfo["movie_id"] = item["id"];
 
         newmovieinfo.push(movieinfo);
     }
@@ -36,7 +34,6 @@ export async function getdata() {
 
     return newmovieinfo;
 }
-
 
 //카드 만들기
 export function makeCard(item) {
@@ -56,12 +53,11 @@ export function makeCard(item) {
         </a>
     </div>
     `;
-    document.querySelector("#movieCard").insertAdjacentHTML('beforeend', innerContents);
+    document.querySelector("#movieCard").insertAdjacentHTML("beforeend", innerContents);
 
-    document.getElementById(`mvcard_${item.movie_id}`).addEventListener('click', async (e) => {
+    document.getElementById(`mvcard_${item.movie_id}`).addEventListener("click", async (e) => {
         await makeModal(item);
     });
-
 }
 
 //출력하기
@@ -73,7 +69,6 @@ export async function print() {
 
         count++;
     });
-
 }
 
 // 조민수 끝나는포인트
