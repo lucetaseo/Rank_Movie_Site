@@ -1,0 +1,52 @@
+/* 조민수 시작포인트*/
+
+#header {
+    background-color: green;
+    height: 40px;
+    border-bottom: 3px solid rgb(88, 85, 85);
+
+    background-image: url('https://celcliptipsprod.s3-ap-northeast-1.amazonaws.com/tips_article_body/2812/506901/7f504b08e938504527c3b42d3358842b');
+    background-position: center;
+    background-size: cover;
+
+}
+
+#content{
+    background-image: url('https://celcliptipsprod.s3-ap-northeast-1.amazonaws.com/tips_article_body/2812/506901/7f504b08e938504527c3b42d3358842b');
+    background-position: center;
+    background-size: cover;
+}
+
+#right_section {
+   margin-top: 100px;
+}
+
+#mtitle {
+    margin-top: 50px;
+    margin-bottom: 40px;
+}
+
+#posterimg{
+    margin-top: 30px;
+    border-radius: 20px;
+}
+
+.loader {
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+    0% {transform: translate(-50%, -50%) rotate(0deg);}
+    100% {transform: translate(-50%, -50%) rotate(360deg);}
+}
+
+/* 조민수 끝나는포인트*/
