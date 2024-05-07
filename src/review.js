@@ -2,6 +2,7 @@ function addComment() {
     var name = document.getElementById('name').value;
     var password = document.getElementById('password').value;
     var review = document.getElementById('review').value;
+    var movieId = document.getElementById('movieId').value;
     // 저장할때 set 아이템 고유값 설정()
 
     var today = new Date();
