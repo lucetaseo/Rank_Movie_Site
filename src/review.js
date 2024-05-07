@@ -10,8 +10,6 @@ function addComment() {
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     var dateTime = date + ' ' + time;
 
-    var commentId = generateUniqueId(); // 댓글 고유 아이디 생성
-
     var newComment = document.createElement('div');
     newComment.innerHTML = '<strong>' + name + '</strong> - ' + review;
 
