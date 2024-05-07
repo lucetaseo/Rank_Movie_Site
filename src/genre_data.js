@@ -93,8 +93,8 @@ const loadGenreData = (movieDataList, genreId, genreName) => {
 
     document.getElementById('movieCard').innerHTML = ' ';
 
-    searchedMovies.forEach(item => {
-        makeCard(item);
+    searchedMovies.forEach(async item => {
+        await makeCard(item);
     });
 
     document.querySelector("#dropdown_btn").innerText = genreName;

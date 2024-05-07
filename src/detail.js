@@ -21,7 +21,7 @@ async function getdata() {
         movieinfo["overview"] = item["overview"];
         movieinfo["poster_path"] = item["poster_path"];
         movieinfo["vote_average"] = item["vote_average"];
-        movieinfo["movie_id"] = item["id"];
+        movieinfo["id"] = item["id"];
 
         newmovieinfo.push(movieinfo);
     }

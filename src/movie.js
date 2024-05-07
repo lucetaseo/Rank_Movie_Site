@@ -12,7 +12,7 @@ const options = {
     }
 };
 
-async function getdata() {
+export async function getdata() {
     const response = await fetch("https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1", options);
     const data = await response.json();
 
@@ -24,7 +24,7 @@ async function getdata() {
         movieinfo["overview"] = item["overview"];
         movieinfo["poster_path"] = item["poster_path"];
         movieinfo["vote_average"] = item["vote_average"];
-        movieinfo["movie_id"] = item["id"];
+        movieinfo["id"] = item["id"];
 
         newmovieinfo.push(movieinfo);
     }
@@ -36,11 +36,12 @@ async function getdata() {
 }
 
 //카드 만들기
-export function makeCard(item) {
+export async function makeCard(item) {
+    console.log(item);
     const innerContents = `
     <div>
-        <a href = "./detail.html?${item.movie_id}">
-        <div class="card" style="width: 18rem;" id= "mvcard_${item.movie_id}">
+        <a href = "./detail.html?${item.id}">
+        <div class="card" style="width: 18rem;" id= "mvcard_${item.id}">
         <img src="https://image.tmdb.org/t/p/w500${item.poster_path}" class="card-img-top" alt="이미지 준비중">
             <div class="card-body">
                 <h3 class="card-title">${item.title}</h3>
@@ -55,7 +56,7 @@ export function makeCard(item) {
     `;
     document.querySelector("#movieCard").insertAdjacentHTML("beforeend", innerContents);
 
-    document.getElementById(`mvcard_${item.movie_id}`).addEventListener("click", async (e) => {
+    document.getElementById(`mvcard_${item.id}`).addEventListener("click", async (e) => {
         await makeModal(item);
     });
 }
@@ -64,9 +65,8 @@ export function makeCard(item) {
 export async function print() {
     const data = await getdata();
     let count = 0;
-    data.forEach(function (item) {
-        makeCard(item);
-
+    data.forEach(async function (item) {
+        await makeCard(item);
         count++;
     });
 }

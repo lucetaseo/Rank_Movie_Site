@@ -22,7 +22,7 @@ const getImgdata = async function () {
   return await Promise.all(
     totaldata.map(
       async (item) =>
-        (item.slide_poster_path = await matchImageById(item.movie_id)),
+        (item.slide_poster_path = await matchImageById(item.id)),
     ),
   )
     .then((data) => {
@@ -64,7 +64,7 @@ const addMovieSilde = (data, index) => {
                                 data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1">
                             </button>`;
     carouselItem = `<div class="carousel-item active">
-                            <img src="https://image.tmdb.org/t/p/w500${data.slide_poster_path}" id="img_slide_${data.movie_id}"
+                            <img src="https://image.tmdb.org/t/p/w500${data.slide_poster_path}" id="img_slide_${data.id}"
                                 class="d-block w-100" alt="movie poster 0">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>${data.title}</h5>
@@ -77,7 +77,7 @@ const addMovieSilde = (data, index) => {
     }">
                             </button>`;
     carouselItem = `<div class="carousel-item">
-                            <img src="https://image.tmdb.org/t/p/w500${data.slide_poster_path}" id="img_slide_${data.movie_id}"
+                            <img src="https://image.tmdb.org/t/p/w500${data.slide_poster_path}" id="img_slide_${data.id}"
                                 class="d-block w-100" alt="movie poster ${index}">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>${data.title}</h5>
@@ -86,13 +86,13 @@ const addMovieSilde = (data, index) => {
   }
   $carouselIndicator.insertAdjacentHTML('beforeend', carouselIndicator);
   $carouselItem.insertAdjacentHTML('beforeend', carouselItem);
-  addMovieSildeClickEvent(data.movie_id);
+  addMovieSildeClickEvent(data.id);
 };
 
 // click 이벤트 생성
 const addMovieSildeClickEvent = (id) => {
   document.getElementById(`img_slide_${id}`).addEventListener('click', () => {
     // 클릭 시 나오는 함수 작성
-    alert('movie_id: ' + id);
+    alert('id: ' + id);
   });
 };
