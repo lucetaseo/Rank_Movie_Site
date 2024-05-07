@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Sunflower:wght@300&display=swap');
+.totalhead {
+  font-family: 'Sunflower', sans-serif;
+}
+
+/* 탑컨텐츠  */
+.topcontent {
+  height: 200px;
+  color: rgb(63, 46, 160);
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 검색창 라인 */
+.searchbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  border-top: 1px solid rgb(245, 240, 243);
+}
+
+.totalhead {
+  background-image: url('data:image/jpeg;base64,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');
+  background-position: center;
+  background-size: cover;
+}
+
+/* update : 2024 - 05 - 07
+   작성자 : 윤동협         */
+/* 영화 슬라이드 박스 (main) */
+.movie_slide {
+  width: auto;
+  height: auto;
+  padding: 3% 5% 3% 5%;
+  border-bottom: 1px solid white;
+  background-color: #f0e6f0;
+}
+
+.slide {
+  border: 10px solid white;
+  width: auto;
+  max-width: 1080px;
+  margin: 0 auto 0 auto;
+  background-color: black;
+}
+
+.carousel-item > img {
+  width: 100%;
+  height: 100%;
+  max-height: 40vh;
+  object-fit: cover;
+}
+
+.carousel-caption {
+  text-shadow: 0px 0px 10px black;
+  font-size: 2em;
+}
+/* ---------- 구분선 -------------- */
+
+/* 카드 */
+
+.card {
+  box-shadow: 0px 0px 20px 5px rgba(71, 57, 150, 0.7);
+  width: 500px;
+  height: 830px;
+
+  display: grid;
+
+  margin: 15px;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.card > img {
+  height: 450px;
+  width: 285px;
+}
+
+.card-title {
+  border-bottom: 1px solid black;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  padding-top: 10px;
+}
+
+.score {
+  border-top: 1px solid black;
+}
+
+#movieCard {
+  display: flex;
+  flex-direction: row;
+  align-self: stretch;
+  justify-content: space-evenly;
+  flex-flow: wrap;
+
+  background-color: #f0e6f0;
+}
