@@ -52,7 +52,7 @@ document.getElementById('commentForm').addEventListener('submit', function (even
 });
 
 window.onload = function() {
-    var movieId = document.getElementById('movieId').value;
+    var movieId = getMovieIdFromUrl(); 
     var comments = JSON.parse(localStorage.getItem('comments')) || [];
     var commentContainer = document.getElementById('commentContainer');
     comments.forEach(function(item) {
