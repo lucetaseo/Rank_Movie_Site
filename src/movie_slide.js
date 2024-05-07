@@ -17,7 +17,6 @@ const options = {
 };
 
 const getImgdata = async function () {
-  let imgdata = [];
   const totaldata = await getdata();
 
   return await Promise.all(
