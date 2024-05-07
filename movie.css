@@ -1,8 +1,8 @@
-
-
+/*조민수 시작포인트*/
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Sunflower:wght@300&display=swap');
+
 .totalhead {
-    
+
     font-family: "Sunflower", sans-serif;
 }
 
@@ -10,7 +10,7 @@
 /* 탑컨텐츠  */
 .topcontent {
 
-   
+
     height: 200px;
     color: rgb(63, 46, 160);
 
@@ -31,7 +31,7 @@
     justify-content: center;
 
     padding: 20px;
-   
+
     border-top: 1px solid rgb(245, 240, 243);
 
 }
@@ -47,13 +47,13 @@
 /* 카드 */
 
 .card {
-  
+
     box-shadow: 0px 0px 20px 5px rgba(71, 57, 150, 0.7);
     width: 500px;
     height: 830px;
 
     display: grid;
-   
+
 
     margin: 15px;
     padding: 20px;
@@ -88,3 +88,21 @@
     background-color: #f0e6f0;
 
 }
+
+/*  모달용  */
+
+#modalbox {
+    background: rgba(46, 29, 43, 0.5);
+}
+
+
+#modal-header {
+    background-color: rgba(33, 24, 114, 0.5);
+}
+
+#uppersection {
+    background-color: rgba(46, 29, 43, 0.5);
+    display: flex;
+}
+
+/*조민수 끝나는포인트*/
