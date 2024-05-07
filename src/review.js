@@ -9,6 +9,8 @@ function addComment() {
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     var dateTime = date + ' ' + time;
 
+    var commentId = generateUniqueId(); // 댓글 고유 아이디 생성
+
     var newComment = document.createElement('div');
     newComment.innerHTML = '<strong>' + name + '</strong> - ' + review;
 
@@ -24,8 +26,8 @@ function addComment() {
         if (inputPassword === password) {
             newComment.remove();
 
-            var index = comments.findIndex(function (item) {
-                return item.review === review && item.dateTime === dateTime;
+            var index = comments.findIndex(function(item) {
+                return item.id === commentId;
             });
             comments.splice(index, 1);
             localStorage.setItem('comments', JSON.stringify(comments));
@@ -48,26 +50,32 @@ document.getElementById('commentForm').addEventListener('submit', function (even
     addComment();
 });
 
-var comments = JSON.parse(localStorage.getItem('comments')) || [];
-var commentContainer = document.getElementById('commentContainer');
-comments.forEach(function (item) {
-    var newComment = document.createElement('div');
-    newComment.innerHTML = '<strong>' + item.name + '</strong> - ' + item.review;
-    var deleteButton = document.createElement('button');
-    deleteButton.textContent = '삭제';
-    deleteButton.addEventListener('click', function () {
-        var inputPassword = prompt('비밀번호를 입력하세요:');
-        if (inputPassword === item.password) {
-            newComment.remove();
-            var index = comments.findIndex(function (comment) {
-                return comment.review === item.review && comment.dateTime === item.dateTime;
+window.onload = function() {
+    var movieId = document.getElementById('movieId').value;
+    var comments = JSON.parse(localStorage.getItem('comments')) || [];
+    var commentContainer = document.getElementById('commentContainer');
+    comments.forEach(function(item) {
+        if (item.movieId === movieId) { // 해당 영화의 댓글만 표시
+            var newComment = document.createElement('div');
+            newComment.id = item.id;
+            newComment.innerHTML = '<strong>' + item.name + '</strong> - ' + item.review;
+            var deleteButton = document.createElement('button');
+            deleteButton.textContent = '삭제';
+            deleteButton.addEventListener('click', function() {
+                var inputPassword = prompt('비밀번호를 입력하세요:');
+                if (inputPassword === item.password) {
+                    newComment.remove(); 
+                    var index = comments.findIndex(function(comment) {
+                        return comment.id === item.id;
+                    });
+                    comments.splice(index, 1);
+                    localStorage.setItem('comments', JSON.stringify(comments));
+                } else {
+                    alert('비밀번호가 일치하지 않습니다.');
+                }
             });
-            comments.splice(index, 1);
-            localStorage.setItem('comments', JSON.stringify(comments));
-        } else {
-            alert('비밀번호가 일치하지 않습니다.');
+            newComment.appendChild(deleteButton);
+            commentContainer.appendChild(newComment);
         }
     });
-    newComment.appendChild(deleteButton);
-    commentContainer.appendChild(newComment);
-});
+};
