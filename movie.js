@@ -1,3 +1,6 @@
+import { makeGenreForm } from "./genre_data.js";
+// 신이지니 import
+
 const options = {
     method: 'GET',
     headers: {
@@ -6,14 +9,16 @@ const options = {
     }
 };
 
+
 async function getdata() {
 
-    const response = await fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', options)
+    const response = await fetch('https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1', options)
     const data = await response.json()
+    console.log(data.results);
    
     const newmovieinfo = [];
 
-    for (item of data['results']) {
+    for (let item of data.results) {
         const movieinfo = {};
         movieinfo['title'] = item['title'];
         movieinfo['overview'] = item['overview'];
@@ -23,14 +28,18 @@ async function getdata() {
 
         // console.log(movieinfo);
         newmovieinfo.push(movieinfo);
-        console.log(newmovieinfo);
     }
+
+    //신이지니 시작
+    makeGenreForm(data.results);
+
     return newmovieinfo;
+    //신이지니 끝
 }
-getdata();
+
 
 //카드 만들기
-function makeCard(item) {
+export function makeCard(item) {
     const innerContents = `
     <div class="card" style="width: 18rem;">
     <img src="https://image.tmdb.org/t/p/w500${item.poster_path}" class="card-img-top" alt="이미지 준비중" onclick = "alert(${item.movie_id})">
